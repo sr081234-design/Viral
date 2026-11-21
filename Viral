@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TONTONAN VIRAL</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#172238;
+}
+.page{
+  width:100%;
+  max-width:720px;
+  margin:auto;
+  min-height:100vh;
+}
+.header{
+  height:86px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  border-bottom:1px solid #eee;
+  gap:12px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:27px;
+  font-weight:700;
+  flex:1;
+  min-width:0;
+}
+.logo{
+  width:50px;
+  height:50px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:#172238;
+  color:#fff;
+  font-size:26px;
+  font-weight:800;
+  flex-shrink:0;
+}
+.co{color:#1475d1}
+
+.actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
+}
+.wa{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:48px;
+  padding:0 16px;
+  border-radius:13px;
+  background:#25D366;
+  color:#fff;
+  text-decoration:none;
+  font-size:16px;
+  font-weight:800;
+  white-space:nowrap;
+  box-shadow:0 4px 12px rgba(37,211,102,.2);
+}
+.wa:hover{background:#1fbd5b}
+.upload{
+  border:0;
+  border-radius:13px;
+  padding:15px 21px;
+  min-height:48px;
+  background:#172238;
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.upload:hover{background:#24324d}
+
+.ad{
+  margin:27px 28px 14px;
+  color:#778294;
+  font-size:21px;
+}
+.video-box{
+  position:relative;
+  margin:0 28px;
+  overflow:hidden;
+  border-radius:29px;
+  background:#171717;
+  aspect-ratio:9/16;
+}
+.video-box video{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+.poster{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  cursor:pointer;
+  z-index: 1;
+}
+.video-box.playing .poster,
+.video-box.playing .play-button{display:none}
+
+.play-button{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:118px;
+  height:118px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.95);
+  cursor:pointer;
+  z-index: 2;
+}
+.play-button:after{
+  content:"";
+  position:absolute;
+  left:48%;
+  top:37%;
+  border-left:32px solid #111;
+  border-top:21px solid transparent;
+  border-bottom:21px solid transparent;
+}
+
+/* Styling Modal Pop-up Interaktif */
+.custom-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 20px;
+}
+.custom-modal.hidden {
+  display: none;
+}
+.modal-content {
+  background: #222;
+  color: #fff;
+  padding: 26px 20px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 92%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  border: 1px solid #333;
+}
+.modal-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #fff;
+}
+.modal-desc {
+  font-size: 13px;
+  font-style: italic;
+  color: #ccc;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+.modal-cta {
+  display: inline-block;
+  background: #ee4d2d;
+  color: #fff;
+  text-decoration: none;
+  padding: 13px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.modal-play-btn {
+  display: block;
+  width: 100%;
+  border: 1px solid #555;
+  background: #2f3542;
+  color: #fff;
+  padding: 11px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+.modal-footer {
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffd700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Styling untuk wadah iklan agar rapi dan tidak mengganggu */
+.ad-container {
+  margin: 20px 28px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  text-align: center;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.note{
+  text-align:center;
+  color:#777;
+  font-size:13px;
+  padding:10px 20px 30px;
+}
+
+@media(max-width:600px){
+  .header{height:78px;padding:0 16px;gap:8px}
+  .brand{font-size:21px;gap:9px}
+  .logo{width:43px;height:43px;border-radius:11px;font-size:23px}
+  .actions{gap:6px}
+  .wa{
+    min-height:42px;
+    padding:0 11px;
+    border-radius:11px;
+    font-size:13px;
+  }
+  .upload{
+    min-height:42px;
+    padding:12px 14px;
+    border-radius:11px;
+    font-size:14px;
+  }
+  .ad{margin:22px 16px 12px;font-size:18px}
+  .video-box{margin:0 16px;border-radius:25px}
+  .play-button{width:92px;height:92px}
+  .play-button:after{
+    border-left-width:25px;
+    border-top-width:16px;
+    border-bottom-width:16px;
+  }
+  .ad-container {
+    margin: 15px 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="brand">
+      <div class="logo">V</div>
+      <span>vldey<span class="co">.co</span></span>
+    </div>
+
+    <div class="actions">
+      <a class="wa"
+         href="https://s.shopee.co.id/W8KcsDIFQ"
+         target="_blank"
+         rel="noopener noreferrer">
+        WEB UTAMA
+      </a>
+
+      <button class="upload" onclick="document.getElementById('fileInput').click()">
+        Upload
+      </button>
+      <input id="fileInput" type="file" accept="video/*" hidden>
+    </div>
+  </header>
+
+  <div class="ad">WEB UTAMA BANYAK PILIHAN</div>
+
+  <section class="video-box" id="videoBox">
+    <video id="video" controls playsinline preload="metadata">
+      <source src="https://videy.it.com/videos/Mentang%20anak%20tidur.mp4" type="video/mp4">
+    </video>
+
+    <img class="poster" src="poster.png" alt="Preview video">
+    <button class="play-button" id="playButton" aria-label="Putar video"></button>
+
+    <!-- Tampilan Modal Pop-up Interaktif dengan link <a href> langsung -->
+    <div class="custom-modal hidden" id="customModal">
+      <div class="modal-content">
+        <div class="modal-title">Cek Produk Sebelum Putar Film</div>
+        <div class="modal-desc">
+          "Terima kasih sudah mengklik ku 1 kali, untuk menampilkan iklan dan <b>Play Movie</b>, mudah rezeki dan sehat terus buat kamu. Aamiin"
+        </div>
+        <a class="modal-cta"
+           href="https://s.shopee.co.id/W8KcsDIFQ"
+           target="_blank"
+           rel="noopener noreferrer">
+          Buka Produk di Shopee
+        </a>
+        <button class="modal-play-btn" id="modalPlayBtn" type="button">
+          Lanjut Putar Film
+        </button>
+        <div class="modal-footer">THIS PLAYER CONTAINS ADS</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Penempatan Iklan mengarah ke Shopee Affiliate -->
+  <div class="ad-container">
+    <a href="https://s.shopee.co.id/W8KcsDIFQ" target="_blank" rel="noopener noreferrer"
+       style="color:#ee4d2d;font-weight:700;text-decoration:none;font-size:14px;">
+      Cek Produk Rekomendasi di Shopee Affiliate
+    </a>
+  </div>
+
+  <!-- Bagian bawah mengarah ke Shopee Affiliate -->
+  <div style="text-align:center; margin: 10px 0;">
+    <a href="https://s.shopee.co.id/W8KcsDIFQ" target="_blank" rel="noopener noreferrer"
+       style="color:#ee4d2d;font-weight:700;text-decoration:none;font-size:13px;">
+      Lihat Promo &amp; Produk Pilihan di Shopee
+    </a>
+  </div>
+
+  <!-- Bagian bawah kedua mengarah ke Shopee Affiliate -->
+  <div style="text-align:center; margin: 10px 0;">
+    <a href="https://s.shopee.co.id/W8KcsDIFQ" target="_blank" rel="noopener noreferrer"
+       style="color:#ee4d2d;font-weight:700;text-decoration:none;font-size:13px;">
+      Kunjungi Toko / Produk Shopee Affiliate
+    </a>
+  </div>
+
+  <div class="note">Video Player</div>
+</div>
+
+<script>
+const box = document.getElementById('videoBox');
+const video = document.getElementById('video');
+const play = document.getElementById('playButton');
+const poster = document.querySelector('.poster');
+const fileInput = document.getElementById('fileInput');
+const modal = document.getElementById('customModal');
+const modalPlayBtn = document.getElementById('modalPlayBtn');
+
+let sudahBukaModal = false;
+
+function tampilkanModal(e) {
+  e.stopPropagation();
+  if (!sudahBukaModal) {
+    modal.classList.remove('hidden');
+    sudahBukaModal = true;
+  } else {
+    mulaiPutarVideo();
+  }
+}
+
+function mulaiPutarVideo() {
+  modal.classList.add('hidden');
+  box.classList.add('playing');
+  video.play().catch(() => {});
+}
+
+play.addEventListener('click', tampilkanModal);
+poster.addEventListener('click', tampilkanModal);
+
+modalPlayBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  mulaiPutarVideo();
+});
+
+// Klik di area gelap luar kotak modal bisa menutup modal tanpa memblokir klik link <a href>
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.classList.add('hidden');
+  }
+});
+
+video.addEventListener('play', () => box.classList.add('playing'));
+video.addEventListener('pause', () => {
+  if (!video.ended && sudahBukaModal) box.classList.remove('playing');
+});
+video.addEventListener('ended', () => box.classList.remove('playing'));
+
+fileInput.addEventListener('change', function(){
+  const file = this.files[0];
+  if(!file) return;
+
+  const url = URL.createObjectURL(file);
+  video.src = url;
+  box.classList.add('playing');
+  video.play().catch(()=>{});
+});
+</script>
+
+</body>
+</html>
