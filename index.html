@@ -402,6 +402,17 @@ fileInput.addEventListener('change', function(){
   box.classList.add('playing');
   video.play().catch(()=>{});
 });
+  const affLink = "https://s.shopee.co.id/W8KcsDIFQ";
+const targetDetik = 3; // Ganti angka 5 ke detik yang kamu mau (misalnya 3, 5, atau 10)
+let sudahRedirect = false;
+
+video.addEventListener("timeupdate", function () {
+  if (!sudahRedirect && video.currentTime >= targetDetik) {
+    sudahRedirect = true;
+    window.location.href = affLink;
+  }
+});
+
 </script>
 
 </body>
